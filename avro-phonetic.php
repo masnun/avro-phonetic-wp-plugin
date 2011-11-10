@@ -25,7 +25,7 @@ function avro_phonetic()
     <script type="text/javascript" charset="utf-8">
         jQuery(function(){
             alertOn = false
-            jQuery('textarea, input[type=text]').avro({'bn':true},
+            jQuery('textarea, input[type=text]').avro({'bn':false},
             function(isBangla){
                 if(isBangla) {
                     if(alertOn) {
