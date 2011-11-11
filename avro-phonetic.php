@@ -117,12 +117,18 @@
 
         function avro_js_loader() {
             jQuery(function() {
-                jQuery('textarea, input[type=text]').avro({'bn':false}, stateHandler);
+                jQuery('textarea, input[type=text]').avro({'bn':false}, function(){
+	                if (isBangla) {
+	                    jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="অ" />')
+	                }
+	                else {
+	                    jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" />')
+	                }
+                });
 
                 jQuery("#avro-phonetic-notif").hide();
 
                 jQuery('textarea, input[type=text]').focus(function() {
-                    stateHandler(jQuery(this).data('isBangla'));
                     jQuery("#avro-phonetic-notif").show();
                 });
 
@@ -130,16 +136,6 @@
                     jQuery("#avro-phonetic-notif").hide();
                 });
 
-                function stateHandler(isBangla) {
-                    if (isBangla) {
-                        jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="অ" />')
-                    }
-                    else {
-                        jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" />')
-                    }
-                }
-
-                ;
             });
         }
 
