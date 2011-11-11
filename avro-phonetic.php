@@ -118,7 +118,7 @@ function avro_phonetic()
             script.onload= avro_js_loader;
             script.src= 'https://raw.github.com/torifat/jsAvroPhonetic/master/dist/avro-latest.js';
             root.appendChild(script);
-
+            preload_avro_images();
         }
 
         function avro_js_loader() {
@@ -137,6 +137,16 @@ function avro_phonetic()
                     }
                 });
             }).avro('destroy').avro();
+            
+        }
+        
+        var avro_preload = ['https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png', 'https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png'];
+        var avro_images = [];
+        function preload_avro_images(){
+            for (var i = 0; i < avro_preload.length; i++) {
+                avro_images[i] = new Image();
+                avro_images[i].src = avro_preload[i];
+            }
         }
 
 
