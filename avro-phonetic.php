@@ -20,7 +20,8 @@ add_action('admin_footer', 'avro_phonetic_notif');
 
 function avro_phonetic_notif()
 {
-    echo '<div id="avro-phonetic-notif">E</div>';
+    echo '<div id="avro-phonetic-notif"><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" /></div>';
+    echo '<div id="avro-phonetic-hidden-div" style="visibility: hidden;"><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" /><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="B" /></div>';
 }
 
 function avro_phonetic()
@@ -33,13 +34,7 @@ function avro_phonetic()
             position: fixed;
             top: 200px; 
             right:0;
-            width: 50px;
-            height: 50px;
-            background-color: #000;
-            color: #ffff33;
-            font-weight: bold;
-            text-align: center;
-            padding-top: 25px; 
+            
             
         }
     </style>
@@ -81,9 +76,9 @@ function avro_phonetic()
             jQuery('textarea, input[type=text]').live('focus', function() {
                 jQuery(this).avro('destroy').avro({'bn':false}, function(isBangla){
                     if(isBangla) {
-                        jQuery("#avro-phonetic-notif").html("অ")   
+                        jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="অ" />')   
                     } else {
-                        jQuery("#avro-phonetic-notif").html("E")           
+                        jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" />')           
                     }
                 });
             }).avro('destroy').avro();
