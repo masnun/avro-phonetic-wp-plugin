@@ -117,7 +117,7 @@
 
         function avro_js_loader() {
             jQuery(function() {
-                jQuery('textarea, input[type=text]').avro({'bn':false}, function(){
+                jQuery('textarea, input[type=text]').avro({'bn':false}, function(isBangla){
 	                if (isBangla) {
 	                    jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="অ" />')
 	                }
