@@ -17,7 +17,6 @@
     add_action('admin_head', 'avro_phonetic_styles_admin');
     add_action('admin_head', 'avro_phonetic');
     add_action('admin_footer', 'avro_phonetic_notif');
-    add_action('admin_footer', 'avro_phonetic_hidden_div');
 
     // Blog View
     add_action("widgets_init", "avro_phonetic_register_widget");
@@ -25,7 +24,7 @@
     add_action('wp_head', 'avro_phonetic_styles');
     add_action('wp_head', 'avro_phonetic');
     add_action('wp_footer', 'avro_phonetic_notif');
-    add_action('wp_footer', 'avro_phonetic_hidden_div');
+
 
     function avro_phonetic_disclaimer()
     {
@@ -77,10 +76,6 @@
         echo '<div id="avro-phonetic-notif"><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" /></div>';
     }
 
-    function avro_phonetic_hidden_div()
-    {
-        echo '<div id="avro-phonetic-hidden-div" style="visibility: hidden;"><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" /><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="B" /></div>';
-    }
 
     function avro_phonetic()
     {
@@ -149,9 +144,11 @@
         }
 
 
-        var avro_preload = ['https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png', 'https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png'];
-        var avro_images = [];
         function preload_avro_images() {
+
+            var avro_preload = ['https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png', 'https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png'];
+            var avro_images = [];
+
             for (var i = 0; i < avro_preload.length; i++) {
                 avro_images[i] = new Image();
                 avro_images[i].src = avro_preload[i];
