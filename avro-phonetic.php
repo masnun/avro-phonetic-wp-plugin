@@ -2,29 +2,43 @@
 
 /**
  * @package Avro Phonetic WP Plugin
- * @version 1
+ * @version 1.1
  */
 /*
   Plugin Name: Avro Phonetic WP Plugin
   Plugin URI: http://www.masnun.me/2011/11/11/avro-phonetic-wp-plugin.html
   Description: Adds Avro Phonetic to all your text inputs
   Author: Masnun
-  Version: 1
+  Version: 1.1
   Author URI: http://masnun.com
  */
 
+//Admin Section
+add_action('admin_head', 'avro_phonetic_styles_admin');
 add_action('admin_head', 'avro_phonetic');
+add_action('admin_footer', 'avro_phonetic_notif');
+add_action('admin_footer', 'avro_phonetic_hidden_div');
+
+// Blog View
+add_action("widgets_init", "avro_phonetic_register_widget");
+
+add_action('wp_head', 'avro_phonetic_styles');
 add_action('wp_head', 'avro_phonetic');
 add_action('wp_footer', 'avro_phonetic_notif');
-add_action('admin_footer', 'avro_phonetic_notif');
+add_action('wp_footer', 'avro_phonetic_hidden_div');
 
-function avro_phonetic_notif()
+
+function avro_phonetic_disclaimer()
 {
-    echo '<div id="avro-phonetic-notif"><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" /></div>';
-    echo '<div id="avro-phonetic-hidden-div" style="visibility: hidden;"><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" /><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="B" /></div>';
+    echo 'Bangla input is proudly powered by <a href="http://www.masnun.me/2011/11/11/avro-phonetic-wp-plugin.html" target="_blank">Avro Phonetic WP Plugin</a> ';
 }
 
-function avro_phonetic()
+function avro_phonetic_register_widget()
+{
+    register_widget("AvroPhoneticWidget");
+}
+
+function avro_phonetic_styles_admin()
 {
     ?>
 
@@ -34,15 +48,49 @@ function avro_phonetic()
             position: fixed;
             top: 200px; 
             right:0;
-            
-            
+
+
         }
     </style>
+    <?php
+
+}
+
+function avro_phonetic_styles()
+{
+    ?>
+
+    <style type="text/css">
+        #avro-phonetic-notif { 
+            border: 0;
+            position: fixed;
+            top: 200px; 
+            right:0;
 
 
+        }
+
+    </style>
+    <?php
+
+}
+
+function avro_phonetic_notif()
+{
+    echo '<div id="avro-phonetic-notif"><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" /></div>';
+}
+
+function avro_phonetic_hidden_div()
+{
+    echo '<div id="avro-phonetic-hidden-div" style="visibility: hidden;"><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" /><img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="B" /></div>';
+}
+
+function avro_phonetic()
+{
+    ?>
     <script type="text/javascript">
-                        
-                            
+
+
         var root = (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]);
         var ns = document.createElementNS && document.documentElement.namespaceURI;
 
@@ -55,7 +103,8 @@ function avro_phonetic()
             script.onload= enable_avro;
             script.src= 'https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js';
             root.appendChild(script);
-        } else {
+        }
+        else {
             enable_avro();
         }
 
@@ -69,23 +118,58 @@ function avro_phonetic()
             script.onload= avro_js_loader;
             script.src= 'https://raw.github.com/torifat/jsAvroPhonetic/master/dist/avro-latest.js';
             root.appendChild(script);
-                                
+
         }
 
         function avro_js_loader() {
             jQuery('textarea, input[type=text]').live('focus', function() {
+                var notif = "Avro Phonetic: Ctrl + M changes layout."
+                if(jQuery(this).val() == '') {
+                    //jQuery(this).val(notif)
+                }
+                            
                 jQuery(this).avro('destroy').avro({'bn':false}, function(isBangla){
                     if(isBangla) {
-                        jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="অ" />')   
-                    } else {
-                        jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" />')           
+                        jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="অ" />')
+                    }
+                    else {
+                        jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-english.png" width="50px" height="50px" alt="E" />')
                     }
                 });
             }).avro('destroy').avro();
         }
 
-                                
+
     </script>
-    <?
+
+    <?php
+
+}
+
+// WordPress Widget
+
+class AvroPhoneticWidget extends WP_Widget
+{
+
+    function AvroPhoneticWidget()
+    {
+        $widget_ops = array(
+            "classname" => "AvroPhoneticWidget",
+            "description" => "Adds Avro Phonetic Layout"
+        );
+        $this->WP_Widget('AvroPhoneticWidget', 'Avro Phonetic', $widget_ops);
+    }
+
+    function widget($args, $instance)
+    {
+        extract($args);
+        echo $before_widget;
+        echo $before_title;
+        echo '<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="অ" />';
+        echo $after_title;
+        echo "The blog supports Avro Phonetic. Press <strong>Ctrl + M</strong> to switch keyboard.<br/>";
+        avro_phonetic_disclaimer();
+        echo $after_widget;
+    }
 
 }
