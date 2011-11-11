@@ -27,7 +27,6 @@ add_action('wp_head', 'avro_phonetic');
 add_action('wp_footer', 'avro_phonetic_notif');
 add_action('wp_footer', 'avro_phonetic_hidden_div');
 
-
 function avro_phonetic_disclaimer()
 {
     echo 'Bangla input is proudly powered by <a href="http://www.masnun.me/2011/11/11/avro-phonetic-wp-plugin.html" target="_blank">Avro Phonetic WP Plugin</a> ';
@@ -123,11 +122,8 @@ function avro_phonetic()
 
         function avro_js_loader() {
             jQuery('textarea, input[type=text]').live('focus', function() {
-                var notif = "Avro Phonetic: Ctrl + M changes layout."
-                if(jQuery(this).val() == '') {
-                    //jQuery(this).val(notif)
-                }
-                            
+                jQuery("#avro-phonetic-notif").show()
+                                            
                 jQuery(this).avro('destroy').avro({'bn':false}, function(isBangla){
                     if(isBangla) {
                         jQuery("#avro-phonetic-notif").html('<img src="https://github.com/masnun/Avro-Phonetic-WP-Plugin/raw/master/avro-bangla.png" width="50px" height="50px" alt="অ" />')
@@ -138,8 +134,18 @@ function avro_phonetic()
                 });
             }).avro('destroy').avro();
         }
+            
+        jQuery(function(){
+            
+            jQuery('textarea, input[type=text]').blur(function() {
+                jQuery("#avro-phonetic-notif").hide();
+                
+            })        
 
-
+            jQuery("#avro-phonetic-notif").hide();
+            
+        })
+            
     </script>
 
     <?php
